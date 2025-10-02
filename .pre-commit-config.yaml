@@ -1,0 +1,91 @@
+repos:
+  - repo: https://github.com/astral-sh/uv-pre-commit # ensure lock file is up to date
+    rev: 0.8.22
+    hooks:
+      - id: uv-lock
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks # basic hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--multi, --unsafe]
+      - id: check-added-large-files
+        args: [--maxkb=10000]  # 10MB limit for GenAI projects
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: debug-statements
+      - id: check-docstring-first
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: destroyed-symlinks
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  - repo: https://github.com/pycqa/isort # Python import sorting
+    rev: 6.1.0
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: [--profile, black, --line-length=88]
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.13.2
+    hooks:
+      - id: ruff
+        name: ruff lint
+        args: [--fix, --show-files]
+        stages: [pre-commit]
+      - id: ruff-format
+        name: ruff format
+        stages: [pre-commit]
+
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.406
+    hooks:
+      - id: pyright
+        stages: [pre-push]
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.6
+    hooks:
+      - id: bandit
+        args: [-r, ., -f, json, -o, bandit-report.json]
+        stages: [pre-push]
+        require_serial: true
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        name: detect-secrets
+        entry: detect-secrets-hook
+        args: [--baseline, .secrets.baseline]
+        stages: [pre-commit]
+        pass_filenames: false
+
+  # strip notebook outputs to avoid committing large binary outputs
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.8.1
+    hooks:
+      - id: nbstripout
+        files: ^notebooks/.*\.ipynb$
+        stages: [pre-commit]
+
+  - repo: local
+    hooks:
+      - id: safety
+        name: safety (dependency vulnerability scan)
+        entry: safety check --file=uv.lock --full-report
+        language: python
+        types: [python]
+        additional_dependencies: [safety==3.6.2]
+        pass_filenames: false
+        stages: [pre-push]
+        require_serial: true

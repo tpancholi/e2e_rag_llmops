@@ -1,0 +1,598 @@
+[project]
+name = "e2e-rag-llmops"
+version = "0.1.0"
+description = "End to End RAG with LLMOps"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "bandit>=1.8.6",
+    "detect-secrets>=1.5.0",
+    "ipykernel>=6.30.1",
+    "mypy>=1.18.2",
+    "nbconvert>=7.16.6",
+    "nbstripout>=0.8.1",
+    "notebook>=7.4.7",
+    "pre-commit>=4.3.0",
+    "pyright>=1.1.406",
+    "pytest>=8.4.2",
+    "pytest-asyncio>=1.2.0",
+    "pytest-mock>=3.15.1",
+    "python-dotenv>=1.1.1",
+    "ruff>=0.13.2",
+    "safety>=3.6.2",
+]
+
+[tool.pyright]
+exclude = [".venv", "build", "dist"]
+pythonVersion = "3.13"
+venvPath = "."
+venv = ".venv"
+# Enhanced type checking for GenAI projects
+typeCheckingMode = "strict"  # Can upgrade to "strict" as team matures
+reportMissingImports = true
+reportMissingTypeStubs = false
+reportOptionalMemberAccess = true
+reportOptionalSubscript = true
+reportPrivateImportUsage = true
+reportUnusedImport = true
+reportUnusedVariable = true
+# AI / ML-specific settings
+reportIncompatibleMethodOverride = true
+reportIncompatibleVariableOverride = true
+autoImportCompletions = true
+autoSearchPaths = true
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true  # Start permissive, can tighten later
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = false  # Many AI libraries use untyped decorators
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+# Handle third-party libraries common in GenAI
+[[tool.mypy.overrides]]
+module = [
+    "openai.*",
+    "anthropic.*",
+    "langchain.*",
+    "llama_index.*",
+    "chromadb.*",
+    "pinecone.*",
+    "weaviate.*",
+    "transformers.*",
+    "torch.*",
+    "tensorflow.*",
+    "numpy.*",
+    "pandas.*",
+    "matplotlib.*",
+    "seaborn.*",
+    "plotly.*",
+    "streamlit.*",
+    "gradio.*",
+]
+ignore_missing_imports = true
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    # Project-specific excludes
+    "migrations/",
+    "*.pb2.py",
+    "static/",
+    "media/",
+    # GenAI specific excludes
+    "models/",
+    "checkpoints/",
+    "data/raw/",
+    "data/processed/",
+    "artifacts/",
+    "mlruns/",
+    "wandb/",
+]
+
+# Code formatting
+line-length = 120
+indent-width = 4
+target-version = "py313"
+cache-dir = ".ruff_cache"
+
+# CLI usage examples:
+# uv run ruff check . --fix --show-fixes --show-files
+# uv run ruff format .
+# uv run ruff check . --output-format=grouped
+
+[tool.ruff.format]
+# Use double quotes for strings
+quote-style = "double"
+# Use tabs for indentation (your original preference)
+# Change to "space" if you prefer spaces instead
+indent-style = "space"
+# Skip magic trailing comma for single-element collections
+skip-magic-trailing-comma = false
+# Format code snippets in docstrings
+docstring-code-format = true
+# Respect project's line ending preference
+line-ending = "auto"
+# Format code in docstrings with dynamic line length
+docstring-code-line-length = "dynamic"
+
+[tool.ruff.lint]
+# Enable comprehensive rule sets for production code
+select = [
+    #Essential rules
+    "F", # Pyflakes (essential errors)
+    "E", "W", # pycodestyle errors and warnings
+    "C90", # mccabe (complexity)
+    "I", # isort (import sorting)
+    "N", # pep8-naming (naming conventions)
+    "UP", # pyupgrade (modern Python idioms)
+
+    # Quality and safety rules
+    "YTT", # flake8-2020 (sys.version_info comparisons)
+    "ANN", # flake8-annotations (type annotations)
+    "ASYNC", # flake8-async (async/await issues)
+    "S", # flake8-bandit (security)
+    "BLE", # flake8-blind-except (bare except)
+    "FBT", # flake8-boolean-trap (boolean parameters)
+    "B", # flake8-bugbear (common bugs)
+    "A", # flake8-builtins (builtin shadowing)
+    "COM", # flake8-commas (trailing commas)
+    "C4", # flake8-comprehensions (comprehension improvements)
+    "DTZ", # flake8-datetimez (datetime without timezone)
+    "T10", # flake8-debugger (debugger imports)
+
+    # Code quality improvements
+    "EM", # flake8-errmsg (error message best practices)
+    "EXE", # flake8-executable (executable permissions)
+    "FA", # flake8-future-annotations (future annotations)
+    "ISC", # flake8-implicit-str-concat (implicit string concatenation)
+    "ICN", # flake8-import-conventions (import naming)
+    "G", # flake8-logging-format (logging format)
+    "INP", # flake8-no-pep420 (implicit namespace packages)
+    "PIE", # flake8-pie (miscellaneous improvements)
+    "T20", # flake8-print (print statements)
+    "PYI", # flake8-pyi (type stub files)
+    "PT", # flake8-pytest-style (pytest best practices)
+    "Q", # flake8-quotes (quote consistency)
+    "RET", # flake8-return (return statement improvements)
+    "RSE", # flake8-raise (raise statement improvements)
+    "SLF", # flake8-self (private member access)
+    "SIM", # flake8-simplify (code simplification)
+    "TCH", # flake8-type-checking (TYPE_CHECKING imports)
+    "TID", # flake8-tidy-imports (import organization)
+    "ARG", # flake8-unused-arguments (unused arguments)
+    "PTH", # flake8-use-pathlib (pathlib usage)
+
+    # Data Science and performance rules
+    "PD", # pandas-vet (pandas best practices)
+    "NPY", # NumPy specific rules
+    "PERF", # Perflint (performance optimisation)
+#    "AIR", # Airflow-specific rules (if using Airflow)
+
+    # Advance rules
+    "PGH", # pygrep-hooks (regex-based checks)
+    "PL", # Pylint (additional static analysis)
+    "TRY", # tryceratops (exception handling)
+    "FLY", # flynt (f-string conversion)
+    "FURB", # refurb (modernization)
+    "LOG", # flake8-logging (logging best practices)
+    "RUF", # Ruff-specific rules
+]
+
+# Rules to ignore for team flexibility
+ignore = [
+    # Type annotation rules (can be overwhelming initially)
+    "ANN001",  # Missing type annotation for function argument
+    "ANN002",  # Missing type annotation for *args
+    "ANN003",  # Missing type annotation for **kwargs
+    "ANN201",  # Missing return type annotation for public function
+    "ANN204",  # Missing return type annotation for special method
+    "ANN401",  # Dynamically typed expressions (Any) are disallowed
+
+    # Documentation rules (adjust based on team preference)
+    "D100",    # Missing docstring in public module
+#    "D101",    # Missing docstring in public class
+#    "D102",    # Missing docstring in public method
+#    "D103",    # Missing docstring in public function
+    "D104",    # Missing docstring in public package
+    "D105",    # Missing docstring in magic method
+
+    # Complexity rules (can be adjusted based on team standards)
+    "C901",    # Function is too complex
+    "PLR0913", # Too many arguments to function call
+    "PLR0915", # Too many statements
+
+    # Development-friendly rules
+#    "T201",    # print statements (useful during development)
+#    "T203",    # pprint statements
+#    "S311",    # Standard pseudo-random generators (often fine for AI)
+
+    # Boolean traps - common in ML/AI APIs
+#    "FBT001",  # Boolean positional argument
+#    "FBT002",  # Boolean default value
+#    "FBT003",  # Boolean positional value
+
+    # Magic values - common in ML hyperparameters
+    "PLR2004", # Magic value used in comparison
+
+    # Security rules - adjusted since you're using Bandit separately
+    "S101",    # Use of assert detected (useful in tests, Bandit will catch real issues)
+    "S603",    # subprocess call: check for execution of untrusted input (Bandit handles this better)
+
+    # Exception handling (sometimes broad except is needed)
+    "BLE001",  # Do not catch blind exception
+
+    # Import rules that might conflict with the project structure
+    "TID252",  # Relative imports from parent modules are banned
+
+    # Performance rules that might be premature optimization
+    "PERF203", # try-except within a loop
+
+    # Formatter compatibility rules
+    "COM812",  # trailing-comma-missing (conflicts with formatter)
+    "ISC001",  # Implicitly concatenated string literals
+#    "W191",    # tab-indentation (conflicts with tab indent-style)
+]
+
+# Allow fix for most rules
+fixable = [
+    "A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W",
+    "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT",
+    "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH",
+    "PYI", "RET", "RSE", "RUF", "SIM", "TID", "TCH", "TRY", "UP", "PERF",
+    "FURB"
+]
+
+# Avoid trying to fix these rules (can cause issues)
+unfixable = [
+    "F841",    # Unused variable (might be intentional)
+    "F401",    # Unused import (might be re-exported)
+    "ERA001",  # Commented-out code (manual review needed)
+    "T201",    # Print statements (might be intentional during development)
+    "T203",    # pprint statements
+
+]
+
+# Variables to consider unused
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+# Test files - coordinated with your other tools
+"test_*" = [
+    "S101",    # asserts allowed in tests
+    "S105", "S106", "S108",  # Hardcoded secrets in test data
+    "ARG",     # Unused function args (fixtures)
+    "FBT",     # Boolean positional args ok in tests
+    "PLR2004", # Magic values in tests
+    "SLF001",  # Private member access (testing internals)
+    "PT011",   # pytest.raises() is too broad
+    "TRY301",  # Abstract raise to an inner function
+]
+
+"tests/**/*" = [
+    "S101",    # asserts allowed in tests (Bandit will handle security)
+    "ARG",     # Unused function args (fixtures)
+    "FBT",     # Boolean positional args ok in tests
+    "PLR2004", # Magic value comparisons ok in tests
+    "S311",    # Standard pseudo-random generators ok for tests
+    "SLF001",  # Private member access (testing internals)
+    "S105",    # Hardcoded password strings (false positives in test data)
+    "S106",    # Hardcoded password strings (test fixtures)
+    "PT011",   # pytest.raises() is too broad
+    "TRY301",  # Abstract raise to an inner function
+]
+
+# Jupyter notebooks - data science friendly
+"*.ipynb" = [
+    "T201", "T203",  # Print statements ok in notebooks
+    "S101",          # Asserts ok in notebooks
+    "F401",          # Unused imports (common in exploration)
+    "F841",          # Unused variables (exploration artifacts)
+    "E402",          # Module level import not at top
+    "PLR2004",       # Magic values (hyperparameters)
+    "ANN",           # Type annotations not needed in notebooks
+]
+
+# Scripts and utilities
+"scripts/**/*" = [
+    "T201", "T203",   # Print statements ok in scripts
+    "S602", "S603",   # subprocess calls ok in scripts
+    "PLR0913",       # Many arguments ok in CLI scripts
+    "INP001",        # No __init__.py needed in scripts
+]
+
+# Configuration files
+"**/config/**/*" = [
+    "PLR0913", # Many arguments ok in config
+    "S105",    # Hardcoded password strings (false positives in config examples)
+    "T201",          # Print in config scripts
+]
+
+# Migration files (Django/Alembic)
+"**/migrations/**/*" = [
+    "ARG001",  # Unused function arguments
+    "N806",    # Variable names (Django migrations style)
+]
+
+# Example/demo files
+"examples/**/*" = [
+    "T201", "T203",  # Print statements ok in examples
+    "INP001",        # No __init__.py needed in examples
+    "S101",          # Asserts ok in examples
+    "PLR2004",       # Magic values ok in examples
+    "ANN",           # Type annotations not needed in examples
+]
+
+# GenAI/LLM specific files
+"**/agents/**/*" = [
+    "PLR0913",       # Agents often have many parameters
+    "PLR2004",       # Magic values common in prompts/configs
+    "S608",          # Hardcoded SQL (might be prompt templates)
+]
+
+"**/prompts/**/*" = [
+    "E501",          # Long lines ok in prompts
+    "S608",          # Hardcoded SQL in prompt templates
+    "T201",          # Print statements for prompt debugging
+]
+
+# Data processing files
+"**/data/**/*" = [
+    "T201",          # Print statements ok in data scripts
+    "PLR0913",       # Many parameters in data processing
+    "S301",          # Pickle usage (common in data science)
+]
+
+# Model files
+"**/models/**/*" = [
+    "PLR0913",       # Models often have many parameters
+    "PLR0915",       # Models can have many statements
+    "S301",          # Pickle usage for model serialization
+    "S403",          # Consider possible security implications
+]
+
+[tool.ruff.lint.flake8-annotations]
+# Require annotations for public functions but not simple cases
+allow-star-arg-any = false
+ignore-fully-untyped = true
+suppress-dummy-args = true
+suppress-none-returning = true
+
+[tool.ruff.lint.flake8-bandit]
+# Security settings
+check-typed-exception = true
+#hardcoded-tmp-directory-extensions = ["tmp", "temp", "cache"]
+
+
+[tool.ruff.lint.flake8-bugbear]
+# Extend immutable calls for better checking
+extend-immutable-calls = [
+    "chr", "typer.Argument", "typer.Option", "fastapi.Depends",
+    "fastapi.Query", "fastapi.Path", "pydantic.Field",
+    # GenAI specific immutable calls
+    "openai.OpenAI", "anthropic.Anthropic", "langchain.llms.OpenAI",
+]
+
+[tool.ruff.lint.flake8-builtins]
+# Builtins to avoid shadowing
+builtins-ignorelist = ["id", "input", "open", "type", "format", "filter"]
+
+[tool.ruff.lint.flake8-comprehensions]
+# Comprehension improvements
+allow-dict-calls-with-keyword-arguments = false
+
+[tool.ruff.lint.flake8-errmsg]
+# Error message formatting
+max-string-length = 30
+
+[tool.ruff.lint.flake8-import-conventions]
+# Import naming conventions
+aliases = { numpy = "np", pandas = "pd", matplotlib = "plt", seaborn = "sns", plotly = "px", tensorflow = "tf", torch = "torch", "matplotlib.pyplot" = "plt", openai = "openai", anthropic = "anthropic", langchain = "lc", "langchain_community" = "lc_community", "langchain_core" = "lc_core", "langchain_openai" = "lc_openai", transformers = "transformers", "sentence_transformers" = "sentence_transformers" }
+
+[tool.ruff.lint.flake8-pytest-style]
+# Pytest style configuration
+fixture-parentheses = false
+mark-parentheses = false
+parametrize-names-type = "tuple"
+parametrize-values-type = "tuple"
+parametrize-values-row-type = "tuple"
+
+[tool.ruff.lint.flake8-quotes]
+# Quote style (should match formatter)
+docstring-quotes = "double"
+inline-quotes = "double"
+multiline-quotes = "double"
+
+[tool.ruff.lint.flake8-tidy-imports]
+# Import organization
+ban-relative-imports = "parents"
+
+[tool.ruff.lint.flake8-type-checking]
+# Type checking imports
+strict = false
+runtime-evaluated-base-classes = [
+    "pydantic.BaseModel",
+    "sqlalchemy.orm.DeclarativeBase",
+    "langchain.schema.BaseMessage",
+    "langchain.tools.BaseTool",
+]
+
+[tool.ruff.lint.isort]
+# Import sorting (similar to black + isort)
+combine-as-imports = true
+force-single-line = false
+force-wrap-aliases = true
+known-first-party = ["e2e_rag_llmops"]
+known-third-party = [
+    # GenAI/ML libraries
+    "openai", "anthropic", "langchain", "llama_index", "chromadb",
+    "pinecone", "weaviate", "transformers", "sentence_transformers",
+    # Data science
+    "numpy", "pandas", "matplotlib", "seaborn", "plotly", "scipy",
+    # ML frameworks
+    "torch", "tensorflow", "sklearn", "xgboost", "lightgbm",
+    # Web frameworks
+    "fastapi", "streamlit", "gradio", "flask", "django",
+]
+required-imports = ["from __future__ import annotations"]
+split-on-trailing-comma = true
+section-order = [
+    "future", "standard-library", "third-party",
+    "first-party", "local-folder"
+]
+
+[tool.ruff.lint.mccabe]
+# Maximum allowed complexity
+max-complexity = 12
+
+[tool.ruff.lint.pep8-naming]
+# Naming conventions
+classmethod-decorators = [
+    "classmethod",
+    "pydantic.validator",
+    "pydantic.root_validator",
+    "pydantic.field_validator",
+    "property"
+]
+staticmethod-decorators = ["staticmethod"]
+
+[tool.ruff.lint.pycodestyle]
+# Line length settings
+ignore-overlong-task-comments = true
+max-doc-length = 120
+
+[tool.ruff.lint.pydocstyle]
+# Docstring style (Google style)
+convention = "google"
+
+[tool.ruff.lint.pylint]
+# Pylint-style checks
+allow-magic-value-types = ["int", "str", "bytes", "float"]
+max-args = 8
+max-branches = 15
+max-returns = 8
+max-statements = 70
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/build/*",
+    "*/dist/*",
+    "setup.py",
+    "conftest.py",
+    # GenAI specific omissions
+    "*/experiments/*",
+    "*/notebooks/*",
+    "*/data/*",
+    "*/models/checkpoints/*",
+]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+    "# type: ignore",
+    "# pragma: no cover",
+]
+show_missing = true
+skip_covered = false
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+# Pytest configuration
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=.",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=80",  # Start with 80%, increase as team matures
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "llm: marks tests that require LLM API calls",
+    "gpu: marks tests that require GPU",
+    "expensive: marks tests that are expensive to run",
+]
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+    # GenAI library specific warnings to ignore
+    "ignore::FutureWarning:transformers.*",
+    "ignore::UserWarning:torch.*",
+]
+
+# Bandit security configuration
+[tool.bandit]
+exclude_dirs = ["tests", "test_*", "*_test.py", "examples", "docs"]
+skips = [
+    "B101",  # assert_used - common in data science
+    "B601",  # paramiko_calls - might be needed for deployment
+    "B311",  # random - often fine for non-security purposes
+]
+hardcoded_tmp_directory_extensions = ["tmp", "temp", "cache"]
+
+# Additional bandit configuration for GenAI projects
+[tool.bandit.assert_used]
+skips = ["*/test_*.py", "*/tests/*", "*_test.py"]
