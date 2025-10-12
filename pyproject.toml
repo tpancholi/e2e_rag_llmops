@@ -5,6 +5,13 @@ description = "End to End RAG with LLMOps"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "ipykernel>=6.30.1",
+    "notebook>=7.4.7",
+    "python-dotenv>=1.1.1",
+]
+
+[dependency-groups]
+dev = [
     "bandit>=1.8.6",
     "detect-secrets>=1.5.0",
     "ipykernel>=6.30.1",
@@ -18,7 +25,7 @@ dependencies = [
     "pytest-asyncio>=1.2.0",
     "pytest-mock>=3.15.1",
     "python-dotenv>=1.1.1",
-    "ruff>=0.13.2",
+    "ruff==0.14.0",
     "safety>=3.6.2",
 ]
 
@@ -28,7 +35,7 @@ pythonVersion = "3.13"
 venvPath = "."
 venv = ".venv"
 # Enhanced type checking for GenAI projects
-typeCheckingMode = "strict"  # Can upgrade to "strict" as team matures
+typeCheckingMode = "strict"  # Can upgrade to "strict" as a team matures
 reportMissingImports = true
 reportMissingTypeStubs = false
 reportOptionalMemberAccess = true
@@ -145,7 +152,7 @@ indent-style = "space"
 skip-magic-trailing-comma = false
 # Format code snippets in docstrings
 docstring-code-format = true
-# Respect project's line ending preference
+# Respect the project's line ending preference
 line-ending = "auto"
 # Format code in docstrings with dynamic line length
 docstring-code-line-length = "dynamic"
@@ -219,17 +226,14 @@ ignore = [
     "ANN001",  # Missing type annotation for function argument
     "ANN002",  # Missing type annotation for *args
     "ANN003",  # Missing type annotation for **kwargs
-    "ANN201",  # Missing return type annotation for public function
-    "ANN204",  # Missing return type annotation for special method
+    "ANN201",  # Missing return type annotation for a public function
+    "ANN204",  # Missing return type annotation for a special method
     "ANN401",  # Dynamically typed expressions (Any) are disallowed
 
     # Documentation rules (adjust based on team preference)
-    "D100",    # Missing docstring in public module
-#    "D101",    # Missing docstring in public class
-#    "D102",    # Missing docstring in public method
-#    "D103",    # Missing docstring in public function
-    "D104",    # Missing docstring in public package
-    "D105",    # Missing docstring in magic method
+    "D100",    # Missing docstring in a public module
+    "D104",    # Missing docstring in a public package
+    "D105",    # Missing docstring in a magic method
 
     # Complexity rules (can be adjusted based on team standards)
     "C901",    # Function is too complex
@@ -242,15 +246,15 @@ ignore = [
 #    "S311",    # Standard pseudo-random generators (often fine for AI)
 
     # Boolean traps - common in ML/AI APIs
-#    "FBT001",  # Boolean positional argument
-#    "FBT002",  # Boolean default value
-#    "FBT003",  # Boolean positional value
+    "FBT001",  # Boolean positional argument
+    "FBT002",  # Boolean default value
+    "FBT003",  # Boolean positional value
 
     # Magic values - common in ML hyperparameters
     "PLR2004", # Magic value used in comparison
 
     # Security rules - adjusted since you're using Bandit separately
-    "S101",    # Use of assert detected (useful in tests, Bandit will catch real issues)
+    "S101",    # Use of asserting detected (useful in tests, Bandit will catch real issues)
     "S603",    # subprocess call: check for execution of untrusted input (Bandit handles this better)
 
     # Exception handling (sometimes broad except is needed)
@@ -265,7 +269,6 @@ ignore = [
     # Formatter compatibility rules
     "COM812",  # trailing-comma-missing (conflicts with formatter)
     "ISC001",  # Implicitly concatenated string literals
-#    "W191",    # tab-indentation (conflicts with tab indent-style)
 ]
 
 # Allow fix for most rules
@@ -316,7 +319,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
     "TRY301",  # Abstract raise to an inner function
 ]
 
-# Jupyter notebooks - data science friendly
+# Jupyter notebooks - data-science-friendly
 "*.ipynb" = [
     "T201", "T203",  # Print statements ok in notebooks
     "S101",          # Asserts ok in notebooks
@@ -560,7 +563,7 @@ addopts = [
     "--cov-report=term-missing",
     "--cov-report=html",
     "--cov-report=xml",
-    "--cov-fail-under=80",  # Start with 80%, increase as team matures
+    "--cov-fail-under=80",  # Start with 80%, increase as a team matures
 ]
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
