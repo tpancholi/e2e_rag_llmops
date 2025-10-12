@@ -2,7 +2,7 @@
 
 ### Setup
 
-- To setup pre-commit hook
+- To set up a pre-commit hook
 ```commandline
 uv run pre-commit install
 ```
@@ -17,7 +17,7 @@ uv run pre-commit autoupdate
 uv run detect-secrets scan --all-files --exclude-files '\.git/.*|\.venv/.*|node_modules/.*|\.ruff_cache/.*' > .secrets.baseline
 ```
 
-- create bandit baseline file
+- create a bandit baseline file
 ```commandline
 uv run bandit -r . -f json -o bandit-report.json
 ```
@@ -40,7 +40,11 @@ uv run pre-commit autoupdate
 uv run pre-commit validate-config .pre-commit-config.yaml
 ```
 
-- To test github action in local environment using `docker` and `act` tool
+- To test GitHub action in local environment using `docker` and `act` tool
 ```commandline
 act  --container-architecture linux/amd64
 ```
+
+
+### Resources
+- [visualize chunking process](https://chunkviz.up.railway.app/)
