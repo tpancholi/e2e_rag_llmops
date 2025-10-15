@@ -1,0 +1,8 @@
+{"timestamp": "2025-10-15T15:11:42.525824Z", "level": "info", "event": "Running in production mode."}
+{"timestamp": "2025-10-15T15:11:42.526900Z", "level": "info", "event": "Loaded GROQ_API_KEY from environment/ECS Secret Manager"}
+{"timestamp": "2025-10-15T15:11:42.527452Z", "level": "info", "event": "Loaded OPENAI_API_KEY from environment/ECS Secret Manager"}
+{"timestamp": "2025-10-15T15:11:42.527993Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from environment/ECS Secret Manager"}
+{"config_keys": ["embedding_model", "retriever", "llm"], "timestamp": "2025-10-15T15:11:42.532266Z", "level": "info", "event": "YAML config loaded."}
+{"provider": "openai", "model_name": "text-embedding-3-small", "timestamp": "2025-10-15T15:11:42.532559Z", "level": "info", "event": "Loading embedding model"}
+{"available_vendors": [], "timestamp": "2025-10-15T15:11:43.725952Z", "level": "error", "event": "LLM vendor 'openai' not found in config"}
+{"error": "LLM vendor 'openai' not found in config", "timestamp": "2025-10-15T15:11:43.726090Z", "level": "error", "event": "Failed to load LLM model"}

@@ -45,6 +45,12 @@ uv run pre-commit validate-config .pre-commit-config.yaml
 act  --container-architecture linux/amd64
 ```
 
+### Individual module test commands
+- To test the model load utility
+```commandline
+uv run python -m multi_doc_chat.utils.model_loader
+```
+
 
 ### Resources
 - [visualize chunking process](https://chunkviz.up.railway.app/)

@@ -1,0 +1,25 @@
+{"timestamp": "2025-10-15T15:14:20.705557Z", "level": "info", "event": "Running in production mode."}
+{"timestamp": "2025-10-15T15:14:20.705721Z", "level": "info", "event": "Loaded GROQ_API_KEY from environment/ECS Secret Manager"}
+{"timestamp": "2025-10-15T15:14:20.705833Z", "level": "info", "event": "Loaded OPENAI_API_KEY from environment/ECS Secret Manager"}
+{"timestamp": "2025-10-15T15:14:20.705958Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from environment/ECS Secret Manager"}
+{"config_keys": ["embedding_model", "retriever", "llm_model"], "timestamp": "2025-10-15T15:14:20.707400Z", "level": "info", "event": "YAML config loaded."}
+{"provider": "openai", "model_name": "text-embedding-3-small", "timestamp": "2025-10-15T15:14:20.707485Z", "level": "info", "event": "Loading embedding model"}
+{"provider": "openai", "model_name": "gpt-5-mini", "timestamp": "2025-10-15T15:14:20.892870Z", "level": "info", "event": "Loading LLM model"}
+HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+{"timestamp": "2025-10-15T15:14:39.881650Z", "level": "info", "event": "Running in production mode."}
+{"timestamp": "2025-10-15T15:14:39.882012Z", "level": "info", "event": "Loaded GROQ_API_KEY from environment/ECS Secret Manager"}
+{"timestamp": "2025-10-15T15:14:39.882356Z", "level": "info", "event": "Loaded OPENAI_API_KEY from environment/ECS Secret Manager"}
+{"timestamp": "2025-10-15T15:14:39.882511Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from environment/ECS Secret Manager"}
+{"config_keys": ["embedding_model", "retriever", "llm_model"], "timestamp": "2025-10-15T15:14:39.886446Z", "level": "info", "event": "YAML config loaded."}
+{"provider": "google", "model_name": "gemini-embedding-001", "timestamp": "2025-10-15T15:14:39.886716Z", "level": "info", "event": "Loading embedding model"}
+{"provider": "groq", "model_name": "openai/gpt-oss-20b", "timestamp": "2025-10-15T15:14:39.908063Z", "level": "info", "event": "Loading LLM model"}
+HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+{"timestamp": "2025-10-15T15:14:42.028085Z", "level": "info", "event": "Running in production mode."}
+{"timestamp": "2025-10-15T15:14:42.028211Z", "level": "info", "event": "Loaded GROQ_API_KEY from environment/ECS Secret Manager"}
+{"timestamp": "2025-10-15T15:14:42.028277Z", "level": "info", "event": "Loaded OPENAI_API_KEY from environment/ECS Secret Manager"}
+{"timestamp": "2025-10-15T15:14:42.028333Z", "level": "info", "event": "Loaded GOOGLE_API_KEY from environment/ECS Secret Manager"}
+{"config_keys": ["embedding_model", "retriever", "llm_model"], "timestamp": "2025-10-15T15:14:42.029794Z", "level": "info", "event": "YAML config loaded."}
+{"provider": "openai", "model_name": "text-embedding-3-small", "timestamp": "2025-10-15T15:14:42.029883Z", "level": "info", "event": "Loading embedding model"}
+{"provider": "google", "model_name": "gemini-2.5-flash-lite", "timestamp": "2025-10-15T15:14:42.046863Z", "level": "info", "event": "Loading LLM model"}
+HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
