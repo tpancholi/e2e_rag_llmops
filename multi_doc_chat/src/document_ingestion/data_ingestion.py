@@ -12,7 +12,7 @@ from multi_doc_chat.logger import GLOBAL_LOGGER
 from multi_doc_chat.utils.model_loader import ModelLoader
 
 if TYPE_CHECKING:
-    from langchain_core.documents import Document
+    from langchain.schema import Document
 
 
 class DocumentIngestion:
